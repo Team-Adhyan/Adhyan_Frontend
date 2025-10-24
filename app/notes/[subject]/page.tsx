@@ -259,95 +259,56 @@
 //   )
 // }
 
-"use client"
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Download, Eye, BookOpen } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import { useParams } from "next/navigation"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Download, Eye, BookOpen } from "lucide-react";
+import React from "react";
+import Link from "next/link";
 
 interface PDF {
-  title: string
-  file: string
-  size: string
-  previewUrl?: string
-  downloadUrl?: string
+  title: string;
+  file: string;
+  size: string;
+  previewUrl?: string;
+  downloadUrl?: string;
 }
 
 interface SubjectData {
-  name: string
-  icon: string
-  color: string
-  description: string
-  pdfs: PDF[]
+  name: string;
+  icon: string;
+  color: string;
+  description: string;
+  pdfs: PDF[];
 }
 
-export default function SubjectNotesPage() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const params = useParams()
-  const subject = params.subject as string
+// 1️⃣ Generate static params for Next.js static export
+export async function generateStaticParams() {
+  const subjects = ["rgpv", "gate", "python", "mern", "java", "dsa"];
+  return subjects.map((subject) => ({ subject }));
+}
 
-  const [currentSubject, setCurrentSubject] = useState<SubjectData | null>(null)
+// 2️⃣ Page Component
+export default function SubjectNotesPage({ params }: { params: { subject: string } }) {
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const subject = params.subject;
 
-  // Preprocess PDFs for static-friendly Google Drive links
-  useEffect(() => {
-    const subjectData: Record<string, SubjectData> = {
-      rgpv: {
-        name: "RGPV",
-        icon: "🎓",
-        color: "from-teal-500 to-teal-600",
-        description: "Rajiv Gandhi Proudyogiki Vishwavidyalaya study materials and resources",
-        pdfs: [
-          { title: "Big Data", file: "/BIG_DATA_SHIVANI.pdf", size: "2.5 MB" },
-          { title: "Basic Mechanical Engineering", file: "https://drive.google.com/file/d/12AsXDuaNO7LEl1mDiZuJtzmFJdtRM8eN/view?usp=drive_link", size: "3.2 MB" },
-          { title: "Data Structure", file: "https://drive.google.com/file/d/1YU96aqbMzBkkvtMd-6q2pGa0psdYULbM/view?usp=drive_link", size: "4.1 MB" },
-          // Add more PDFs as needed...
-        ],
-      },
-      // Add other subjects (gate, python, mern, java, dsa) similarly...
-    }
+  // 3️⃣ All subjects & PDFs
+  const subjectData: Record<string, SubjectData> = {
+    rgpv: {
+      name: "RGPV",
+      icon: "🎓",
+      color: "from-teal-500 to-teal-600",
+      description: "Rajiv Gandhi Proudyogiki Vishwavidyalaya study materials and resources",
+      pdfs: [
+        { title: "Big Data", file: "/BIG_DATA_SHIVANI.pdf", size: "2.5 MB" },
+        { title: "Basic Mechanical Engineering", file: "https://drive.google.com/file/d/12AsXDuaNO7LEl1mDiZuJtzmFJdtRM8eN/view?usp=drive_link", size: "3.2 MB" },
+        { title: "Data Structure", file: "https://drive.google.com/file/d/1YU96aqbMzBkkvtMd-6q2pGa0psdYULbM/view?usp=drive_link", size: "4.1 MB" },
+      ],
+    },
+    // Add other subjects: gate, python, mern, java, dsa
+  };
 
-    const subjectInfo = subjectData[subject]
-    if (subjectInfo) {
-      // Precompute Google Drive preview & download links
-      subjectInfo.pdfs = subjectInfo.pdfs.map(pdf => {
-        const isDriveLink = pdf.file.includes("drive.google.com")
-        if (isDriveLink) {
-          const fileId = pdf.file.match(/[-\w]{25,}/)?.[0]
-          if (fileId) {
-            return {
-              ...pdf,
-              previewUrl: `https://drive.google.com/file/d/${fileId}/preview`,
-              downloadUrl: `https://drive.google.com/uc?export=download&id=${fileId}`,
-            }
-          }
-        }
-        return pdf
-      })
-    }
-
-    setCurrentSubject(subjectInfo || null)
-  }, [subject])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    const cards = sectionRef.current?.querySelectorAll(".pdf-card")
-    cards?.forEach(card => observer.observe(card))
-
-    return () => observer.disconnect()
-  }, [currentSubject])
+  const currentSubject = subjectData[subject];
 
   if (!currentSubject) {
     return (
@@ -362,39 +323,47 @@ export default function SubjectNotesPage() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
+
+  // Preprocess PDFs for Google Drive
+  currentSubject.pdfs = currentSubject.pdfs.map((pdf) => {
+    const isDrive = pdf.file.includes("drive.google.com");
+    if (isDrive) {
+      const fileId = pdf.file.match(/[-\w]{25,}/)?.[0];
+      if (fileId) {
+        return {
+          ...pdf,
+          previewUrl: `https://drive.google.com/file/d/${fileId}/preview`,
+          downloadUrl: `https://drive.google.com/uc?export=download&id=${fileId}`,
+        };
+      }
+    }
+    return pdf;
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
-      </div>
-
       <section ref={sectionRef} className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <Link href="/#notes">
-              <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/10 mb-6">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to All Subjects
-              </Button>
-            </Link>
+          <Link href="/#notes">
+            <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-white/10 mb-6">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to All Subjects
+            </Button>
+          </Link>
 
-            <div className="flex items-center space-x-4 mb-6">
-              <div
-                className={`w-16 h-16 rounded-full bg-gradient-to-r ${currentSubject.color} flex items-center justify-center text-white text-2xl shadow-lg`}
-              >
-                {currentSubject.icon}
-              </div>
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
-                  {currentSubject.name} Study Materials
-                </h1>
-                <p className="text-lg text-gray-300 mt-2">{currentSubject.description}</p>
-              </div>
+          <div className="flex items-center space-x-4 mb-6">
+            <div
+              className={`w-16 h-16 rounded-full bg-gradient-to-r ${currentSubject.color} flex items-center justify-center text-white text-2xl shadow-lg`}
+            >
+              {currentSubject.icon}
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+                {currentSubject.name} Study Materials
+              </h1>
+              <p className="text-lg text-gray-300 mt-2">{currentSubject.description}</p>
             </div>
           </div>
 
@@ -402,7 +371,7 @@ export default function SubjectNotesPage() {
             {currentSubject.pdfs.map((pdf, index) => (
               <Card
                 key={index}
-                className="pdf-card opacity-0 hover:scale-105 transition-all duration-300 bg-white/10 backdrop-blur-md border border-white/20 hover:border-teal-400/50 group"
+                className="pdf-card opacity-100 hover:scale-105 transition-all duration-300 bg-white/10 backdrop-blur-md border border-white/20 hover:border-teal-400/50 group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <CardHeader>
@@ -416,7 +385,6 @@ export default function SubjectNotesPage() {
                     <div className="text-sm text-gray-300">
                       <span className="bg-white/10 px-2 py-1 rounded-full">Size: {pdf.size}</span>
                     </div>
-
                     <div className="flex space-x-2">
                       {pdf.previewUrl && (
                         <Button
@@ -427,20 +395,8 @@ export default function SubjectNotesPage() {
                           Preview
                         </Button>
                       )}
-
                       <Button
-                        onClick={() => {
-                          if (pdf.downloadUrl) {
-                            window.open(pdf.downloadUrl, "_blank")
-                          } else {
-                            const link = document.createElement("a")
-                            link.href = pdf.file
-                            link.download = pdf.file.split("/").pop() || "file.pdf"
-                            document.body.appendChild(link)
-                            link.click()
-                            document.body.removeChild(link)
-                          }
-                        }}
+                        onClick={() => window.open(pdf.downloadUrl || pdf.file, "_blank")}
                         className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0"
                       >
                         <Download className="h-4 w-4 mr-2" />
@@ -455,5 +411,5 @@ export default function SubjectNotesPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
