@@ -75,11 +75,11 @@ export function Navigation() {
 
                   {profileMenuOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg py-2 z-50">
-                      <Link href="/profile">
+                      {/* <Link href="/profile">
                         <Button variant="ghost" className="w-full justify-start px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700">
                           My Profile
                         </Button>
-                      </Link>
+                      </Link> */}
                       <Button
                         variant="ghost"
                         className="w-full justify-start px-4 py-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900"
@@ -135,11 +135,11 @@ export function Navigation() {
               <div className="px-4 py-2 space-y-2">
                 {isLoggedIn ? (
                   <>
-                    <Link href="/profile" className="block">
+                    {/* <Link href="/profile" className="block">
                       <Button variant="ghost" className="w-full justify-start text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700">
                         My Profile
                       </Button>
-                    </Link>
+                    </Link> */}
                     <Button
                       variant="ghost"
                       className="w-full justify-start text-red-500 hover:bg-red-50 dark:hover:bg-red-900"

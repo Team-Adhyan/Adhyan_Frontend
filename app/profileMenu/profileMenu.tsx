@@ -31,7 +31,7 @@ export default function ProfileMenu() {
       <button
         onClick={() => setShowDropdown(!showDropdown)}
         className="flex items-center justify-center w-12 h-12 rounded-full bg-teal-500 hover:bg-teal-600 transition-colors"
-      >
+      > 
         <User className="w-6 h-6 text-white" />
       </button>
 
