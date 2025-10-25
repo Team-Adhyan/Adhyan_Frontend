@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Instagram, Twitter, Youtube, Linkedin, Mail, Phone, Github } from "lucide-react"
+import { Instagram, Twitter, Youtube, Linkedin, Mail, Phone, Github, } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 export function PromotionSection() {
@@ -148,8 +148,17 @@ export function PromotionSection() {
   const socialLinks = [
     { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/adhyan.core?igsh=MWNqYmcxYTNwZmVzMQ==", color: "from-pink-500 to-purple-600" },
     { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/groups/10050483/", color: "from-blue-600 to-blue-800" },
+     { 
+    icon: () => (
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16.472 14.382c-.296-.148-1.756-.867-2.028-.967-.272-.1-.472-.148-.672.15-.2.296-.772.967-.946 1.164-.174.2-.348.223-.644.074-.296-.148-1.248-.46-2.376-1.462-.88-.784-1.472-1.752-1.646-2.048-.174-.296-.018-.456.13-.604.134-.134.296-.348.446-.522.148-.174.2-.296.296-.494.1-.2.05-.374-.025-.522-.074-.148-.672-1.612-.92-2.212-.242-.58-.488-.5-.672-.51l-.574-.01c-.2 0-.522.074-.794.374s-1.04 1.016-1.04 2.476 1.064 2.876 1.212 3.074c.148.2 2.096 3.2 5.072 4.486.708.306 1.26.488 1.688.624.708.226 1.352.194 1.86.118.568-.084 1.756-.718 2.004-1.41.248-.694.248-1.29.174-1.41-.074-.12-.272-.2-.568-.348z" />
+      </svg>
+    ),
+    label: "WhatsApp",
+    href: "https://chat.whatsapp.com/ImkSMQcv3SwHjbafOlHtfd", // replace with your number
+    color: "from-green-500 to-green-700"
+  },  
   ]
-
   return (
     <section ref={sectionRef} id="team" className="relative">
       <div className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
