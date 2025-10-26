@@ -12,7 +12,7 @@ export function SuccessStories() {
       story:
         "I'm really grateful to the Adhyan Community.They are quick to respond, supportive, guide juniors well, and always clear doubts in evry possible way with positivity. Its truly a great place for learning and growing.",
       rating: 5,
-      linkedin: "https://linkedin.com/in/priya-sharma-student",
+      linkedin: "https://linkedin.com/in/lucky-faujdar-21262826b",
     },
     {
       name: "Harshit Khare",
@@ -20,7 +20,7 @@ export function SuccessStories() {
       story:
         "Adhyan's python sessions really helped me strengthen my fundamentals and clear concepts in a simple way/ The well structured study materials, interactive guidance made learning python easier and boosted by confidence. Along with this, the organised resources and consistent support motivated me to keep improving and made my preparation much more effective.",
       rating: 5,
-      linkedin: "https://linkedin.com/in/rahul-kumar-engineer",
+      linkedin: "https://linkedin.com/in/harshitkhare4",
     },
     {
       name: "Shruti Patel",
@@ -28,7 +28,7 @@ export function SuccessStories() {
       story:
         "Adhyan's basic mechanical engineering notes were incredibly detailed and well-structured. They played a crucial role in my RGPV preparation and success.",
       rating: 5,
-      linkedin: "https://linkedin.com/in/anita",
+      linkedin: "https://linkedin.com/in/shrutipatel1518",
     },
   ]
 

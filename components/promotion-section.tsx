@@ -45,15 +45,15 @@ export function PromotionSection() {
       linkedin: "https://linkedin.com/in/saket-dubey-9a4725254",
       github: "https://github.com/saketdubey",
     },
-    {
-      name: "Sneha Kushwaha",
-      role: "Executive Head",
-      expertise: "Data Analyst & Web Development",
-      image: "/1000240922.png",
-      skills: ["Front End Dev", "AI/ML", "Data Analysis"],
-      linkedin: "https://linkedin.com/in/kushwahasneha874",
-      github: "https://github.com/snehakushwaha874",
-    },
+    // {
+    //   name: "Sneha Kushwaha",
+    //   role: "Executive Head",
+    //   expertise: "Data Analyst & Web Development",
+    //   image: "/1000240922.png",
+    //   skills: ["Front End Dev", "AI/ML", "Data Analysis"],
+    //   linkedin: "https://linkedin.com/in/kushwahasneha874",
+    //   github: "https://github.com/snehakushwaha874",
+    // },
     {
       name: "Vedant Vashishth",
       role: "Executive Head",
@@ -315,7 +315,7 @@ export function PromotionSection() {
 
                   <p className="text-teal-300 font-medium mb-1 text-xs">{faculty.subject}</p>
 
-                  <p className="text-gray-400 text-xs mb-3">{faculty.experience}</p>
+                  {/* <p className="text-gray-400 text-xs mb-3">{faculty.experience}</p> */}
 
                   <div className="flex justify-center gap-2">
                     <Button
